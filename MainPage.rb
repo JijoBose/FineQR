@@ -15,9 +15,27 @@ app.signal_connect "activate" do |application|
   # Pack the container in the window
   window.add(grid)
 
-  entry = Gtk::Entry.new
-  grid.attach(entry, 0, 0, 1, 1)
+  my_entry = Gtk::Entry.new
+  grid.attach(my_entry, 0, 0, 1, 1)
 
+  # button that does nothing
+    button = Gtk::Button.new(:label => "Generate QRCode")
+    button.signal_connect("clicked") do
+      tempurl = my_entry.text
+      qrcode = RQRCode::QRCode.new(tempurl)
+      qimage = qrcode.as_png
+      File.open("Temp/qr.png", "w") do |f|
+        f.write(qimage)
+      end
+    end
+
+    image = Gtk::Image.new :file => 'Temp/qr.png'
+    grid.attach(image, 1 , 1, 1 , 1)
+
+
+
+# generates qr code
+=begin
   qrcode = RQRCode::QRCode.new("http://JijoBose.github.io/")
   qimage = qrcode.as_png
   File.open("Temp/qr.png", "w") do |f|
@@ -25,10 +43,14 @@ app.signal_connect "activate" do |application|
   end
   image = Gtk::Image.new :file => 'Temp/qr.png'
   grid.attach(image, 1 , 1, 1 , 1)
+=end
 
+=begin
+    image = Gtk::Image.new :file => 'Temp/qr.png'
+    grid.attach(image, 1 , 1, 1 , 1)
+  end
+=end
 
-  button = Gtk::Button.new(:label => "Generate QRCode")
-  button.signal_connect("clicked") { puts "Hello" }
   # Place the first button in the grid cell (0, 0), and make it fill
   # just 1 cell horizontally and vertically (ie no spanning)
   grid.attach(button, 1, 0, 1, 1)
