@@ -18,12 +18,12 @@ app.signal_connect "activate" do |application|
   entry = Gtk::Entry.new
   grid.attach(entry, 0, 0, 1, 1)
 
-  qrcode = RQRCode::QRCode.new("http://apple.com/")
+  qrcode = RQRCode::QRCode.new("http://JijoBose.github.io/")
   qimage = qrcode.as_png
-  File.open("qr.png", "w") do |f|
+  File.open("Temp/qr.png", "w") do |f|
     f.write(qimage)
   end
-  image = Gtk::Image.new :file => 'qr.png'
+  image = Gtk::Image.new :file => 'Temp/qr.png'
   grid.attach(image, 1 , 1, 1 , 1)
 
 
