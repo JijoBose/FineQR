@@ -1,5 +1,6 @@
 require "gtk3"
 require 'rqrcode'
+require 'launchy'
 
 
 class RubyApp < Gtk::Window
@@ -9,15 +10,6 @@ class RubyApp < Gtk::Window
 
         init_ui
     end
-
-    def qr_output
-      puts "hello"
-      grid = Gtk::Grid.new
-      add(grid)
-      image = Gtk::Image.new :file => 'Temp/qr.png'
-      grid.attach(image, 1, 1, 1, 1)
-    end
-
 
     def init_ui
         grid = Gtk::Grid.new
@@ -35,6 +27,7 @@ class RubyApp < Gtk::Window
           File.open("Temp/qr.png", "w") do |f|
            f.write(qimage)
           end
+          Launchy.open("Temp/qr.png")
         end
         grid.attach(button, 1, 0, 1, 1)
         image = Gtk::Image.new :file => 'Temp/qr.png'

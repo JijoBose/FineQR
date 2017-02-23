@@ -1,44 +1,85 @@
 require "gtk3"
 require 'rqrcode'
+require 'launchy'
 
-app = Gtk::Application.new("org.gtk.example", :flags_none)
 
-app.signal_connect "activate" do |application|
-  # create a new window, and set its title
-  window = Gtk::ApplicationWindow.new(application)
-  window.set_title("QR Generator")
-  window.set_border_width(100)
+class RubyApp < Gtk::Window
 
-  # Here we construct the container that is going pack our buttons
-  grid = Gtk::Grid.new
+    def initialize
+        super
 
-  # Pack the container in the window
-  window.add(grid)
-
-  my_entry = Gtk::Entry.new
-  grid.attach(my_entry, 0, 0, 1, 1)
-
-  # button that does nothing
-  button = Gtk::Button.new(:label => "Generate QRCode")
-  button.signal_connect("clicked") do
-    tempurl = my_entry.text
-    qrcode = RQRCode::QRCode.new(tempurl)
-    qimage = qrcode.as_png
-    File.open("Temp/qr.png", "w") do |f|
-     f.write(qimage)
+        init_ui
     end
-  end
 
-  image = Gtk::Image.new :file => 'Temp/qr.png'
-  grid.attach(image, 1 , 1, 1 , 1)
+    def init_ui
+        grid = Gtk::Grid.new
+        add(grid)
 
-  grid.attach(button, 1, 0, 1, 1)
-  window.show_all
+        my_entry = Gtk::Entry.new
+        grid.attach(my_entry, 0, 0, 1, 1)
+
+        # generates qr code depending on the my_entry
+        button = Gtk::Button.new(:label => "Generate QRCode")
+        button.signal_connect "clicked" do
+          tempurl = my_entry.text
+          qrcode = RQRCode::QRCode.new(tempurl)
+          qimage = qrcode.as_png
+          File.open("Temp/qr.png", "w") do |f|
+           f.write(qimage)
+          end
+          Launchy.open("Temp/qr.png")
+        end
+        grid.attach(button, 1, 0, 1, 1)
+        image = Gtk::Image.new :file => 'Temp/qr.png'
+        grid.attach(image, 1, 1, 1, 1)
+
+
+=begin
+        image = Gtk::Image.new :file => 'Temp/qr.png'
+        grid.attach(image, 1, 1, 1, 1)
+
+        table = Gtk::Table.new 1, 2, true
+
+        info = Gtk::Button.new :label => "Information"
+        warn = Gtk::Button.new :label => "Warning"
+        ques = Gtk::Button.new :label => "Question"
+        erro = Gtk::Button.new :label => "Error"
+
+        info.signal_connect "clicked" do
+            on_info
+        end
+
+=end
+        set_title "Messages"
+        signal_connect "destroy" do
+            Gtk.main_quit
+        end
+
+        set_default_size 300, 100
+        set_window_position :center
+
+        show_all
+
+    end
+
+
+    def on_erro
+
+        md = Gtk::MessageDialog.new :parent => self,
+            :flags => :modal, :type => :error,
+            :buttons_type => :close, :message => "Error loading file"
+        begin
+            logo = Gdk::Pixbuf.new :file => "Temp/qr.png"
+        rescue IOError => e
+            puts e
+            puts "cannot load image"
+            exit
+        end
+        md.run
+        md.destroy
+    end
+
 end
-# Gtk::Application#run need C style argv ([prog, arg1, arg2, ...,argn]).
-# The ARGV ruby variable only contains the arguments ([arg1, arg2, ...,argb])
-# and not the program name. We have to add it explicitly.
 
-status = app.run([$0] + ARGV)
-
-puts status
+window = RubyApp.new
+Gtk.main
