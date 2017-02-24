@@ -12,6 +12,16 @@ class RubyApp < Gtk::Window
     end
 
     def init_ui
+
+        set_title "FineQR - Create QR Code"
+        signal_connect "destroy" do
+            Gtk.main_quit
+        end
+
+        set_default_size 500, 400
+        set_window_position :center
+
+
         grid = Gtk::Grid.new
         add(grid)
 
@@ -30,53 +40,16 @@ class RubyApp < Gtk::Window
           Launchy.open("Temp/qr.png")
         end
         grid.attach(button, 1, 0, 1, 1)
+
+        label = Gtk::Label.new "Previous code"
+        grid.attach(label, 1, 2, 1, 2)
+
         image = Gtk::Image.new :file => 'Temp/qr.png'
         grid.attach(image, 1, 1, 1, 1)
 
 
-=begin
-        image = Gtk::Image.new :file => 'Temp/qr.png'
-        grid.attach(image, 1, 1, 1, 1)
-
-        table = Gtk::Table.new 1, 2, true
-
-        info = Gtk::Button.new :label => "Information"
-        warn = Gtk::Button.new :label => "Warning"
-        ques = Gtk::Button.new :label => "Question"
-        erro = Gtk::Button.new :label => "Error"
-
-        info.signal_connect "clicked" do
-            on_info
-        end
-
-=end
-        set_title "Messages"
-        signal_connect "destroy" do
-            Gtk.main_quit
-        end
-
-        set_default_size 300, 100
-        set_window_position :center
 
         show_all
-
-    end
-
-
-    def on_erro
-
-        md = Gtk::MessageDialog.new :parent => self,
-            :flags => :modal, :type => :error,
-            :buttons_type => :close, :message => "Error loading file"
-        begin
-            logo = Gdk::Pixbuf.new :file => "Temp/qr.png"
-        rescue IOError => e
-            puts e
-            puts "cannot load image"
-            exit
-        end
-        md.run
-        md.destroy
     end
 
 end
