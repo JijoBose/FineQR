@@ -37,12 +37,26 @@ class RubyApp < Gtk::Window
           File.open("Temp/qr.png", "w") do |f|
            f.write(qimage)
           end
-          Launchy.open("Temp/qr.png")
+          #Launchy.open("Temp/qr.png")
+          on_clicked
         end
         grid.attach(button, 1, 0, 1, 1)
 
-        label = Gtk::Label.new "Previous code"
-        grid.attach(label, 1, 2, 1, 2)
+        # save image
+        button = Gtk::Button.new(:label => "Save QR Image")
+        button.signal_connect "clicked" do
+          tempurl = my_entry.text
+          qrcode = RQRCode::QRCode.new(tempurl)
+          qimage = qrcode.as_png
+          File.open("Temp/qr.png", "w") do |f|
+            f.write(qimage)
+          end
+          Launchy.open("Temp/qr.png")
+        end
+        grid.attach(button, 1, 2, 1, 2)
+
+        #label = Gtk::Label.new "Previous code"
+        #grid.attach(label, 1, 2, 1, 2)
 
         image = Gtk::Image.new :file => 'Temp/qr.png'
         grid.attach(image, 1, 1, 1, 1)
@@ -51,6 +65,16 @@ class RubyApp < Gtk::Window
 
         show_all
     end
+
+    def on_clicked
+        about = Gtk::AboutDialog.new
+        about.set_program_name "Scan Code"
+        about.set_comments "Battery is a simple tool for battery checking"
+        about.set_logo GdkPixbuf::Pixbuf.new(:file => "Temp/qr.png")
+        about.run
+        about.destroy
+    end
+
 
 end
 
