@@ -48,17 +48,17 @@ class RubyApp < Gtk::Window
           tempurl = my_entry.text
           qrcode = RQRCode::QRCode.new(tempurl)
           qimage = qrcode.as_png
-          File.open("Temp/qr.png", "w") do |f|
+          File.open("tmp/qr.png", "w") do |f|
             f.write(qimage)
           end
-          Launchy.open("Temp/qr.png")
+          Launchy.open("tmp/qr.png")
         end
         grid.attach(button, 1, 2, 1, 2)
 
         #label = Gtk::Label.new "Previous code"
         #grid.attach(label, 1, 2, 1, 2)
 
-        image = Gtk::Image.new :file => 'Temp/qr.png'
+        image = Gtk::Image.new :file => 'tmp/qr.png'
         grid.attach(image, 1, 1, 1, 1)
 
 
