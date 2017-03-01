@@ -34,7 +34,7 @@ class RubyApp < Gtk::Window
           tempurl = my_entry.text
           qrcode = RQRCode::QRCode.new(tempurl)
           qimage = qrcode.as_png
-          File.open("Temp/qr.png", "w") do |f|
+          File.open("tmp/qr.png", "w") do |f|
            f.write(qimage)
           end
           #Launchy.open("Temp/qr.png")
@@ -70,7 +70,7 @@ class RubyApp < Gtk::Window
         about = Gtk::AboutDialog.new
         about.set_program_name "Scan Code"
         about.set_comments "Battery is a simple tool for battery checking"
-        about.set_logo GdkPixbuf::Pixbuf.new(:file => "Temp/qr.png")
+        about.set_logo GdkPixbuf::Pixbuf.new(:file => "tmp/qr.png")
         about.run
         about.destroy
     end
