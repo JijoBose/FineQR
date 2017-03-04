@@ -18,7 +18,7 @@ class RubyApp < Gtk::Window
             Gtk.main_quit
         end
 
-        set_default_size 500, 400
+        set_default_size 800, 600
         set_window_position :center
 
 # Toolbar start
