@@ -98,23 +98,13 @@ class RubyApp < Gtk::Window
       about.set_website_label "FineQR Project Website"
       about.set_logo GdkPixbuf::Pixbuf.new(:file => "image/Logo.png")
       #about.set_logo_icon_name "FineQR"
+      about.set_authors ["Jijo Bose <bosejijo@gmail.com>"]
       about.set_copyright "Copyright (C) 2017 Jijo Bose"
       about.set_license "This program is licensed under BSD 3-Clause License\nCopyright (c) 2017, Jijo Bose\nAll rights reserved.\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\"\nAND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE\nIMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\nDISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE\nFOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL\nDAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR\nSERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\nCAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\nOR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\nOF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
       about.run
       about.destroy
     end
 end
-
-=begin
-    def about_clicked
-      Gtk::AboutDialog.show(nil,
-		      "artists" => ["Artist 1 <no1@foo.bar.com>", "Artist 2 <no2@foo.bar.com>"],
-		      "authors" => ["Author 1 <no1@foo.bar.com>", "Author 2 <no2@foo.bar.com>"],
-		      "documenters" => ["Documenter 1 <no1@foo.bar.com>", "Documenter 2 <no2@foo.bar.com>"],
-		      "translator_credits" => "Translator 1 <no1@foo.bar.com>\nTranslator 2 <no2@foo.bar.com>\n",
-		      )
-    end
-=end
 
 
 window = RubyApp.new

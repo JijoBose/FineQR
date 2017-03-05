@@ -1,13 +1,14 @@
 require "gtk3"
 
 def aboutpage
-
+=begin
 unless Gtk::Version.or_later?(3, 4, 2)
   puts "This sample requires GTK+ 3.4.2 or later: #{Gtk::Version::STRING}"
   exit
 end
-
-Gtk::AboutDialog.show(nil,
+=end
+	about = Gtk::AboutDialog.new
+	about.show(nil,
 		      "artists" => ["Artist 1 <no1@foo.bar.com>", "Artist 2 <no2@foo.bar.com>"],
 		      "authors" => ["Author 1 <no1@foo.bar.com>", "Author 2 <no2@foo.bar.com>"],
 		      "comments" => "This is a sample script for Gtk::AboutDialog",
@@ -21,7 +22,8 @@ Gtk::AboutDialog.show(nil,
 		      "website" => "http://ruby-gnome2.sourceforge.jp",
 		      "website_label" => "Ruby-GNOME2 Project Website"
 		      )
-
-Gtk.main
-
+	about.run
+	about.destroy
 end
+
+aboutpage
