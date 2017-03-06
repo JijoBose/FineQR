@@ -39,7 +39,7 @@ class RubyApp < Gtk::Window
             about_clicked
         end
 
-        vbox = Gtk::Box.new :vertical, 3
+        vbox = Gtk::Box.new :vertical, 2
         vbox.pack_start toolbar, :expand => false,
             :fill => false, :padding => 0
         #add vbox
@@ -50,6 +50,7 @@ class RubyApp < Gtk::Window
             :fill => false, :padding => 1
 
         my_entry = Gtk::Entry.new
+        #my_entry = Gtk::TextView.new
         vbox.pack_start my_entry, :expand => false,
             :fill => false, :padding => 2
 
@@ -66,6 +67,23 @@ class RubyApp < Gtk::Window
           on_clicked
         end
 
+=begin
+        savetb.signal_connect "clicked" do
+          dialog = Gtk::FileChooserDialog.new("Save File",
+                                               parent_window,
+                                               Gtk::FileChooserAction::SAVE,
+                                               nil,
+                                               [Gtk::Stock::CANCEL, Gtk::ResponseType::CANCEL],
+                                               [Gtk::Stock::SAVE, Gtk::ResponseType::ACCEPT])
+
+
+          if dialog.run == Gtk::Dialog::RESPONSE_ACCEPT
+            puts "filename = #{dialog.filename}"
+          end
+          dialog.destroy
+        end
+=end
+
         savetb.signal_connect "clicked" do
           tempurl = my_entry.text
           qrcode = RQRCode::QRCode.new(tempurl)
@@ -75,7 +93,6 @@ class RubyApp < Gtk::Window
           end
           Launchy.open("tmp/qr.png")
         end
-
 
         show_all
     end

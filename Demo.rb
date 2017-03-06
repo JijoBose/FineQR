@@ -3,7 +3,7 @@ require 'rqrcode'
 require 'launchy'
 
 
-class RubyApp < Gtk::Window
+class FineQRApp < Gtk::Window
 
     def initialize
         super
@@ -18,7 +18,7 @@ class RubyApp < Gtk::Window
             Gtk.main_quit
         end
 
-        set_default_size 500, 400
+        set_default_size 800, 600
         set_window_position :center
 
 # Toolbar start
@@ -50,8 +50,13 @@ class RubyApp < Gtk::Window
             :fill => false, :padding => 1
 
         my_entry = Gtk::Entry.new
+        #my_entry = Gtk::TextView.new
         vbox.pack_start my_entry, :expand => false,
             :fill => false, :padding => 2
+
+        prev_image = Gtk::Image.new :file => 'tmp/qr.png'
+        vbox.pack_start prev_image, :expand => false,
+            :fill => false, :padding => 3
 
         add vbox
 
@@ -76,7 +81,6 @@ class RubyApp < Gtk::Window
           Launchy.open("tmp/qr.png")
         end
 
-
         show_all
     end
 
@@ -98,6 +102,7 @@ class RubyApp < Gtk::Window
       about.set_website_label "FineQR Project Website"
       about.set_logo GdkPixbuf::Pixbuf.new(:file => "image/Logo.png")
       #about.set_logo_icon_name "FineQR"
+      about.set_authors ["Jijo Bose <bosejijo@gmail.com>"]
       about.set_copyright "Copyright (C) 2017 Jijo Bose"
       about.set_license "This program is licensed under BSD 3-Clause License\nCopyright (c) 2017, Jijo Bose\nAll rights reserved.\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\"\nAND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE\nIMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\nDISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE\nFOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL\nDAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR\nSERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\nCAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\nOR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\nOF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
       about.run
@@ -105,17 +110,6 @@ class RubyApp < Gtk::Window
     end
 end
 
-=begin
-    def about_clicked
-      Gtk::AboutDialog.show(nil,
-		      "artists" => ["Artist 1 <no1@foo.bar.com>", "Artist 2 <no2@foo.bar.com>"],
-		      "authors" => ["Author 1 <no1@foo.bar.com>", "Author 2 <no2@foo.bar.com>"],
-		      "documenters" => ["Documenter 1 <no1@foo.bar.com>", "Documenter 2 <no2@foo.bar.com>"],
-		      "translator_credits" => "Translator 1 <no1@foo.bar.com>\nTranslator 2 <no2@foo.bar.com>\n",
-		      )
-    end
-=end
 
-
-window = RubyApp.new
+window = FineQRApp.new
 Gtk.main
