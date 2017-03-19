@@ -21,65 +21,12 @@ class FineQRApp < Gtk::Window
         set_default_size 800, 600
         set_window_position :center
 
-# Toolbar start
-        toolbar = Gtk::Toolbar.new
-        toolbar.set_toolbar_style Gtk::ToolbarStyle::ICONS
-
-        newtb = Gtk::ToolButton.new :stock_id => Gtk::Stock::APPLY
-        savetb = Gtk::ToolButton.new :stock_id => Gtk::Stock::SAVE
-        sep = Gtk::SeparatorToolItem.new
-        aboutb = Gtk::ToolButton.new :stock_id => Gtk::Stock::ABOUT
-
-        toolbar.insert newtb, 0
-        toolbar.insert savetb, 1
-        toolbar.insert sep, 2
-        toolbar.insert aboutb, 3
-
-        aboutb.signal_connect "clicked" do
-            about_clicked
-        end
-
-        vbox = Gtk::Box.new :vertical, 3
-        vbox.pack_start toolbar, :expand => false,
-            :fill => false, :padding => 0
-        #add vbox
-# End Toolbar
+        stack = Gtk::Stack.new
+        stack.set_transition_type(Gtk.StackTransitionType.SLIDE_LEFT_RIGHT)
+        stack.set_transition_duration(1000)
 
         label_entry = Gtk::Label.new "Enter your content"
-        vbox.pack_start label_entry, :expand => false,
-            :fill => false, :padding => 1
-
-        my_entry = Gtk::Entry.new
-        #my_entry = Gtk::TextView.new
-        vbox.pack_start my_entry, :expand => false,
-            :fill => false, :padding => 2
-
-        prev_image = Gtk::Image.new :file => 'tmp/qr.png'
-        vbox.pack_start prev_image, :expand => false,
-            :fill => false, :padding => 3
-
-        add vbox
-
-        newtb.signal_connect "clicked" do
-          tempurl = my_entry.text
-          qrcode = RQRCode::QRCode.new(tempurl)
-          qimage = qrcode.as_png
-          File.open("tmp/qr.png", "w") do |f|
-           f.write(qimage)
-          end
-          #Launchy.open("tmp/qr.png")
-          on_clicked
-        end
-
-        savetb.signal_connect "clicked" do
-          tempurl = my_entry.text
-          qrcode = RQRCode::QRCode.new(tempurl)
-          qimage = qrcode.as_png
-          File.open("tmp/qr.png", "w") do |f|
-           f.write(qimage)
-          end
-          Launchy.open("tmp/qr.png")
-        end
+        stack.add_titled(label_entry)
 
         show_all
     end
